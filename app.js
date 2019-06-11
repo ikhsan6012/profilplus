@@ -8,6 +8,7 @@ const kluRoutes = require('./routes/klu')
 const alamatRoutes = require('./routes/alamat')
 const teleponRoutes = require('./routes/telepon')
 const emailRoutes = require('./routes/email')
+const dokumenRoutes = require('./routes/dokumen')
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use('/klu', kluRoutes)
 app.use('/alamat', alamatRoutes)
 app.use('/telepon', teleponRoutes)
 app.use('/email', emailRoutes)
+app.use('/dokumen', dokumenRoutes)
 
 mongoose.connect('mongodb://localhost:27017/profilplus', {
 	useNewUrlParser: true, 

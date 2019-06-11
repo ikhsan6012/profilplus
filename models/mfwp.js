@@ -108,7 +108,8 @@ const mfwpSchema = new Schema({
     email_lain: [{
         type: Schema.Types.ObjectId,
         ref: 'Email'
-    }]
+    }],
+    dokumen_lain: [String]
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } })
 
 module.exports = mongoose.model('MFWP', mfwpSchema)
