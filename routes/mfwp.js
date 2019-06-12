@@ -36,7 +36,7 @@ router.post('/import', (req, res) => {
 
 router.get('/:npwp', (req, res) => {
     return MFWPModel.findOne({ npwp: req.params.npwp })
-        .populate('alamat_lain email_lain telp_lain')
+        .populate('alamat_lain email_lain telp_lain dokumen_lain')
         .then(async data => {
             console.log(data)
             if(!data) return res.json({ data: null })
