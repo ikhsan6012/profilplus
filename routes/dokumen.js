@@ -62,12 +62,34 @@ router.delete('/:id', async (req, res) => {
             MFWPModel.findOneAndUpdate(del, { $pull: del }, { new: true, select: '_id' }),
         ])
         unlink(path.resolve(__dirname, '..', 'dokumen', dokumen.dokumen_file))
-        res.json({ data: { mfwp: { dokumen_lain: dokumen } } })
+        res.json({ data: { dokumen_lain: dokumen } })
     } catch (err) {
         console.log(err)
         let error
         if(err.msg) error = err
         res.status(400).json(error || { msg: 'Gagal Menghapus Dokumen...' })
+    }
+})
+
+router.patch('/:id', async (req, res) => {
+    const { id } = req.params
+    const { dokumen_file } = req.files || {}
+    const { dokumen_nama, dokumen_keterangan } = req.body
+    let validKeys = [ 'dokumen_nama', 'dokumen_keterangan' ]
+    let update = req.body
+    Object.keys(update).forEach(k => {
+        validKeys.includes(k) || delete update[k]
+    })
+    if(!id) return res.status(400).json({ msg: 'ID Dokumen Diperlukan...' })
+    try {
+        const dokumen = await DokumenModel.findByIdAndUpdate(id, { dokumen_nama, dokumen_keterangan }, { new: true })
+        dokumen_file && writeFile(path.resolve(__dirname, '..', 'dokumen', dokumen.dokumen_file), dokumen_file.data)
+        res.json({ data: { dokumen_lain: dokumen } })
+    } catch (err) {
+        console.log(err)
+        let error
+        if(err.msg) error = err
+        return res.status(400).json(error || { msg: 'Gagal Menghapus Dokumen...' })
     }
 })
 
